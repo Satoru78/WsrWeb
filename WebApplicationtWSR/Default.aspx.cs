@@ -38,7 +38,7 @@ namespace WebApplicationtWSR
                 DataApp.db.User.Add(user);
             }
             DataApp.db.SaveChanges();
-          
+            Page_Load(null, null);
         }
         // Метод отображения списка
         protected void BindGridView()
@@ -54,6 +54,24 @@ namespace WebApplicationtWSR
         protected void GridViewData_RowEditing(object sender, GridViewEditEventArgs e)
         {
             GridViewData.EditIndex = e.NewEditIndex;
+            BindGridView();
+        }
+        //Метод обновления списка
+        protected void GridViewData_RowUpdating(object sender, GridViewUpdateEventArgs e)
+        {
+            DataApp.db.SaveChanges();
+            Page_Load(null, null);
+        }
+        //Метод удаления записи
+        protected void GridViewData_RowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+            int id = Convert.ToInt32(GridViewData.DataKeys[e.RowIndex].Value);
+            var selectedUser = DataApp.db.User.FirstOrDefault(item => item.ID == id);
+            if (selectedUser != null)
+            {
+                DataApp.db.User.Remove(selectedUser);
+                DataApp.db.SaveChanges();
+            }
             BindGridView();
         }
     }
