@@ -11,9 +11,13 @@ namespace WebApplicationtWSR
 {
     public partial class _Default : Page
     {
+        // Метод загрузки страницы
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!IsPostBack)
+            {
+                BindGridView();
+            }
         }
         //Добавление данных
         protected void ButtonAdd_Click(object sender, EventArgs e)
@@ -35,6 +39,22 @@ namespace WebApplicationtWSR
             }
             DataApp.db.SaveChanges();
           
+        }
+        // Метод отображения списка
+        protected void BindGridView()
+        {
+            using (var db = new WsrTestEntities())
+            {
+                var data = db.User.ToList();
+                GridViewData.DataSource = data;
+                GridViewData.DataBind();
+            }
+        }
+        // Метод редактирования данных
+        protected void GridViewData_RowEditing(object sender, GridViewEditEventArgs e)
+        {
+            GridViewData.EditIndex = e.NewEditIndex;
+            BindGridView();
         }
     }
 }
