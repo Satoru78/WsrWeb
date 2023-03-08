@@ -74,5 +74,11 @@ namespace WebApplicationtWSR
             }
             BindGridView();
         }
+       
+
+        protected void Button4_Click(object sender, EventArgs e)
+        {
+            Server.Transfer("about.aspx", true);
+        }
     }
 }
